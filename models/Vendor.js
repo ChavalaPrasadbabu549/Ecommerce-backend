@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// Define Admin Schema
+// Define vendor Schema
 const VendorSchema = mongoose.Schema(
   {
     name: {

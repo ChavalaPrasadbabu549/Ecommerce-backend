@@ -151,7 +151,8 @@ const Vendorcontroller = {
       #swagger.parameters['vendor_Id'] = { in: 'formData', type: 'string', required: true }
      */
     },
-    // Change superadmin status
+
+    // Change vendor status
     async ChangeStatus(req, res) {
         try {
             const { vendor_Id } = req.params;

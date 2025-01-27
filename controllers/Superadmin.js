@@ -36,8 +36,8 @@ const Superadmincontroller = {
             return res.status(500).json({ success: false, message: 'Server error', error: error.message });
         }
         /**
-      #swagger.tags = ['SuperAdmin']
-       */
+        #swagger.tags = ['SuperAdmin']
+         */
     },
 
     // Login API
@@ -64,8 +64,8 @@ const Superadmincontroller = {
             return res.status(500).json({ success: false, message: 'Server error', error: error.message });
         }
         /**
-    #swagger.tags = ['SuperAdmin']
-     */
+        #swagger.tags = ['SuperAdmin']
+        */
     },
 
     // Get All Superadmins API
@@ -77,8 +77,8 @@ const Superadmincontroller = {
             return res.status(500).json({ success: false, message: 'Server error', error: error.message });
         }
         /**
-    #swagger.tags = ['SuperAdmin']
-     */
+        #swagger.tags = ['SuperAdmin']
+        */
     },
 
     // Change superadmin status
@@ -103,8 +103,8 @@ const Superadmincontroller = {
             return res.status(500).json({ success: false, message: 'Server error', error: error.message });
         }
         /**
-            #swagger.tags = ['SuperAdmin']
-             */
+        #swagger.tags = ['SuperAdmin']
+        */
     },
 };
 
