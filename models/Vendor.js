@@ -29,6 +29,11 @@ const VendorSchema = mongoose.Schema(
       type: Boolean,
       default: true, // Default status is active
     },
+    superadminId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Superadmin',  // Reference to Superadmin collection
+      required: true
+    },
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields
@@ -36,5 +41,5 @@ const VendorSchema = mongoose.Schema(
 );
 
 // Create and export Vendors model
-const Vendors = mongoose.model('Vendors', VendorSchema);
-module.exports = Admin;
+const Vendor = mongoose.model('Vendor', VendorSchema);
+module.exports = Vendor;

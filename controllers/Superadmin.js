@@ -84,10 +84,10 @@ const Superadmincontroller = {
     // Change superadmin status
     async ChangeStatus(req, res) {
         try {
-            const { id } = req.params;
+            const { superadmin_id } = req.params;
 
             // Find the admin by ID
-            const superadmin = await Superadmin.findById(id);
+            const superadmin = await Superadmin.findById(superadmin_id);
 
             if (!superadmin) {
                 return res.status(404).json({ success: false, message: 'superadmin not found' });

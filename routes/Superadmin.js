@@ -6,6 +6,6 @@ const router = express.Router();
 router.post('/signup', Signup); // Create new Signup
 router.post('/login', Login); // Login
 router.get('/getallsuperadmins', GetAllSuperadmins); // GetAllSuperadmins
-router.patch('/ChangeStatus/:id', ChangeStatus); // ChangeStatus
+router.patch('/superadminstatus/:superadmin_id', ChangeStatus); // ChangeStatus
 
 module.exports = router;
