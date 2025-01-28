@@ -5,7 +5,7 @@ const router = express.Router();
 const superadminRoutes = require('../routes/Superadmin'); // Assuming your admin routes are in adminRoutes.js
 const vendorRoutes = require('../routes/Vendors'); // Assuming your admin routes are in vendorRoutes.js
 const categoryRoutes = require('../routes/Category'); // Assuming your admin routes are in categoryRoutes.js
-
+const subcategoryRoutes = require('../routes/Subcategory'); // Assuming your admin routes are in subcategoryRoutes.js
 
 // SuperAdmin routes
 router.use('/SuperAdmin', superadminRoutes);
@@ -13,5 +13,7 @@ router.use('/SuperAdmin', superadminRoutes);
 router.use('/Vendor', vendorRoutes);
 //Category  Routes
 router.use('/Category', categoryRoutes);
+//SubCategory  Routes
+router.use('/SubCategory', subcategoryRoutes);
 
 module.exports = router;

@@ -24,7 +24,8 @@ const Vendorcontroller = {
     // Vendor Signup
     async signup(req, res) {
         try {
-            const { name, email, password, role, superadminId } = req.body;
+            const SuperAdminId = req.user.id;
+            const { name, email, password, role } = req.body;
 
             // Check if email already exists
             const existingVendor = await Vendor.findOne({ email });
@@ -42,7 +43,7 @@ const Vendorcontroller = {
                 password: hashedPassword,
                 profile_pic: req.file ? req.file.filename : null, // Save uploaded file name if available
                 role,
-                superadminId, // Associate the vendor with the Superadmin
+                superadminId: SuperAdminId, // Associate the vendor with the Superadmin
             });
 
             // Save vendor to the database
@@ -62,7 +63,6 @@ const Vendorcontroller = {
         #swagger.parameters['password'] = { in: 'formData', type: 'string', required: true }
         #swagger.parameters['status'] = { in: 'formData', type: 'string', required: true ,enum: ['true','false'],default : 'true'}
         #swagger.parameters['role'] = { in: 'formData', type: 'string', required: true, enum: ['Vendor',], default:'Vendor'}
-        #swagger.parameters['superadminId'] = { in: 'formData', type: 'string', required: true }
        */
     },
 
@@ -103,8 +103,8 @@ const Vendorcontroller = {
             return res.status(500).json({ success: false, message: 'Server error', error: error.message });
         }
         /**
-    #swagger.tags = ['Vendor']
-     */
+        #swagger.tags = ['Vendor']
+        */
     },
 
     // Update an Vendor
@@ -147,7 +147,6 @@ const Vendorcontroller = {
       #swagger.parameters['password'] = { in: 'formData', type: 'string', required: false }
       #swagger.parameters['status'] = { in: 'formData', type: 'string', required: false ,enum: ['true','false'],default : 'true'}
       #swagger.parameters['role'] = { in: 'formData', type: 'string', required: false, enum: ['Vendor',], default:'Vendor'}
-      #swagger.parameters['superadminId'] = { in: 'formData', type: 'string', required: false }
       #swagger.parameters['vendor_Id'] = { in: 'formData', type: 'string', required: true }
      */
     },

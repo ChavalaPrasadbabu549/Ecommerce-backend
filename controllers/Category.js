@@ -20,17 +20,12 @@ const Categorycontroller = {
     // Create Category
     async createCategory(req, res) {
         try {
-
-            const { name, vendor_Id } = req.body;
+            const SuperAdminId = req.user.id;
+            const { name } = req.body;
 
             if (!name) {
                 return res.status(400).json({ success: false, message: 'Category name is required' });
             }
-            // Validate vendorId
-            if (!vendor_Id) {
-                return res.status(400).json({ success: false, message: 'Vendor ID is required' });
-            }
-
             // Validate picture
             if (!req.file) {
                 return res.status(400).json({ success: false, message: 'Picture is required' });
@@ -39,7 +34,7 @@ const Categorycontroller = {
             const newCategory = new Category({
                 name,
                 picture: req.file.filename, // Save uploaded file name
-                vendorId: vendor_Id, // Associate category with the vendor
+                superadminId: SuperAdminId, // Associate category with the vendor
             });
 
             await newCategory.save();
@@ -53,7 +48,6 @@ const Categorycontroller = {
         #swagger.consumes = ['multipart/form-data']
         #swagger.parameters['picture'] = { in: 'formData', type: 'file', required: true,description: 'Category picture', accept: 'image/jpeg, image/png'},
         #swagger.parameters['name'] = { in: 'formData', type: 'string', required: true },
-        #swagger.parameters['vendor_Id'] = {in: 'formData',type: 'string',required: true,description: 'Vendor ID to associate the category'},
        */
     },
 
@@ -74,7 +68,7 @@ const Categorycontroller = {
     async updateCategory(req, res) {
         try {
             const { category_Id } = req.body; // Category ID from path
-            const { name, vendor_Id } = req.body;
+            const { name } = req.body;
 
             // Find the category by ID
             const category = await Category.findById(category_Id);
@@ -84,7 +78,6 @@ const Categorycontroller = {
 
             // Update fields
             if (name) category.name = name;
-            if (vendor_Id) category.vendor_Id = vendor_Id;
             if (req.file) category.picture = req.file.filename;
 
             await category.save();
@@ -98,7 +91,6 @@ const Categorycontroller = {
         #swagger.tags = ['Category']
         #swagger.autoBody = false
         #swagger.consumes = ['multipart/form-data']
-        #swagger.parameters['vendor_Id'] = { in: 'formData', type: 'string', required: true },
         #swagger.parameters['category_Id'] = { in: 'formData', type: 'string', required: true },
         #swagger.parameters['picture'] = { in: 'formData', type: 'file', required: false, description: 'Category picture', accept: 'image/jpeg, image/png'},
         #swagger.parameters['name'] = { in: 'formData', type: 'string', required: false },
@@ -110,7 +102,7 @@ const Categorycontroller = {
             const { category_Id } = req.params;
 
             // Find the category by ID
-            const category = await Vendor.findById(category_Id);
+            const category = await Category.findById(category_Id);
 
             if (!category) {
                 return res.status(404).json({ success: false, message: 'category not found' });
@@ -127,6 +119,8 @@ const Categorycontroller = {
         }
         /**
         #swagger.tags = ['Category']
+        #swagger.autoBody = false
+        #swagger.consumes = ['multipart/form-data']
         */
     },
 

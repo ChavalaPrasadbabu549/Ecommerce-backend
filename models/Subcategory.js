@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const CategorySchema = mongoose.Schema(
+const SubcategorySchema = mongoose.Schema(
     {
         name: {
             type: String,
@@ -8,16 +8,16 @@ const CategorySchema = mongoose.Schema(
             trim: true, // Trims whitespace from the input
         },
         picture: {
-            type: String, // URL or path to the category image
+            type: String, // URL or path to the Subcategory image
             required: true, // Optional field
         },
         status: {
             type: Boolean,
             default: true, // Default status is active
         },
-        superadminId: {
+        categoryId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Superadmin',  // Reference to Superadmin collection
+            ref: 'Category',  // Reference to Category collection
             required: true
         },
     },
@@ -26,6 +26,6 @@ const CategorySchema = mongoose.Schema(
     }
 );
 
-// Create and export Category model
-const Category = mongoose.model('Category', CategorySchema);
-module.exports = Category;
+// Create and export Subcategory model
+const Subcategory = mongoose.model('Subcategory', SubcategorySchema);
+module.exports = Subcategory;

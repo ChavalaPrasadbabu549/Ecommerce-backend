@@ -146,6 +146,11 @@
         ],
         "parameters": [
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "profile_pic",
             "in": "formData",
             "type": "file",
@@ -190,12 +195,6 @@
               "Vendor"
             ],
             "default": "Vendor"
-          },
-          {
-            "name": "superadminId",
-            "in": "formData",
-            "type": "string",
-            "required": true
           }
         ],
         "responses": {
@@ -204,6 +203,12 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -256,9 +261,25 @@
           "Vendor"
         ],
         "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -276,6 +297,11 @@
           "multipart/form-data"
         ],
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "profile_pic",
             "in": "formData",
@@ -323,12 +349,6 @@
             "default": "Vendor"
           },
           {
-            "name": "superadminId",
-            "in": "formData",
-            "type": "string",
-            "required": false
-          },
-          {
             "name": "vendor_Id",
             "in": "formData",
             "type": "string",
@@ -338,6 +358,15 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -360,11 +389,25 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -386,6 +429,11 @@
         ],
         "parameters": [
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "picture",
             "in": "formData",
             "type": "file",
@@ -398,13 +446,6 @@
             "in": "formData",
             "type": "string",
             "required": true
-          },
-          {
-            "name": "vendor_Id",
-            "in": "formData",
-            "type": "string",
-            "required": true,
-            "description": "Vendor ID to associate the category"
           }
         ],
         "responses": {
@@ -413,6 +454,12 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -426,9 +473,25 @@
           "Category"
         ],
         "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -447,10 +510,9 @@
         ],
         "parameters": [
           {
-            "name": "vendor_Id",
-            "in": "formData",
-            "type": "string",
-            "required": true
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           },
           {
             "name": "category_Id",
@@ -477,6 +539,15 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -492,17 +563,222 @@
           "Category"
         ],
         "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
         "parameters": [
           {
             "name": "category_Id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/SubCategory/addSubcategory": {
+      "post": {
+        "tags": [
+          "Subcategory"
+        ],
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "category_id",
+            "in": "formData",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "picture",
+            "in": "formData",
+            "type": "file",
+            "required": true,
+            "description": "Category picture",
+            "accept": "image/jpeg, image/png"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/SubCategory/subcategories": {
+      "get": {
+        "tags": [
+          "Subcategory"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/SubCategory/updatesubcategory": {
+      "put": {
+        "tags": [
+          "Subcategory"
+        ],
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "subcategoryId",
+            "in": "formData",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "picture",
+            "in": "formData",
+            "type": "file",
+            "required": false,
+            "accept": "image/jpeg, image/png"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/SubCategory/changestatus/{subcategory_Id}": {
+      "patch": {
+        "tags": [
+          "Subcategory"
+        ],
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "subcategory_Id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
