@@ -910,10 +910,16 @@
           },
           {
             "name": "productId",
-            "in": "path",
+            "in": "formData",
             "type": "string",
-            "required": true,
-            "description": "Product ID"
+            "required": true
+          },
+          {
+            "name": "picture",
+            "in": "formData",
+            "type": "file",
+            "required": false,
+            "accept": "image/jpeg, image/png"
           },
           {
             "name": "name",
@@ -922,13 +928,13 @@
             "required": false
           },
           {
-            "name": "price",
+            "name": "description",
             "in": "formData",
-            "type": "number",
+            "type": "string",
             "required": false
           },
           {
-            "name": "description",
+            "name": "price",
             "in": "formData",
             "type": "string",
             "required": false
@@ -944,13 +950,47 @@
             "in": "formData",
             "type": "string",
             "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/Product/getProductById/{productId}": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "type": "string"
           },
           {
-            "name": "picture",
-            "in": "formData",
-            "type": "file",
-            "required": false,
-            "accept": "image/jpeg, image/png"
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {

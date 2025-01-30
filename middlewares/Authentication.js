@@ -1,38 +1,30 @@
 const Superadmin = require('../models/Superadmin');
 const Vendor = require('../models/Vendor');
 
-
-const Superadmins = async (req, res, next) => {
+const Authentication = async (req, res, next) => {
     try {
-        const userId = req.user; // Make sure `req.decode` contains the user ID
-        const superadmin = await Superadmin.findById(userId.id); // Find admin in the database
-        if (superadmin.role === 'Superadmin') {
-            next(); // If the user is an admin, allow the request to continue
-        } else {
-            res.status(403).json({ message: "Access Denied, Superadmin only Access!" }); // Deny access if not an admin
+        const userId = req.user.id; // Assuming the user ID is stored in req.user.id
+
+        // Check if the user is a Superadmin
+        const superadmin = await Superadmin.findById(userId);
+        if (superadmin && superadmin.role === 'Superadmin') {
+            req.user.role = 'Superadmin'; // Attach role to req.user for later use
+            return next();
         }
+
+        // Check if the user is a Vendor
+        const vendor = await Vendor.findById(userId);
+        if (vendor && vendor.role === 'Vendor') {
+            req.user.role = 'Vendor'; // Attach role to req.user for later use
+            return next();
+        }
+
+        // If the user is neither a Superadmin nor a Vendor, deny access
+        res.status(403).json({ message: "Access Denied, Superadmin or Vendor only Access!" });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Error" }); // Handle any errors that occur during the process
+        res.status(500).json({ message: "Server Error" });
     }
 };
 
-
-module.exports = Superadmins;
-
-const Vendors = async (req, res, next) => {
-    try {
-        const userId = req.user; // Make sure `req.decode` contains the user ID
-        const vendor = await Vendor.findById(userId.id); // Find Vendor in the database
-        if (vendor.role === 'Vendor') {
-            next(); // If the user is an Vendor, allow the request to continue
-        } else {
-            res.status(403).json({ message: "Access Denied, Vendor only Access!" }); // Deny access if not an admin
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Server Error" }); // Handle any errors that occur during the process
-    }
-};
-
-module.exports = Vendors;
+module.exports = Authentication;
