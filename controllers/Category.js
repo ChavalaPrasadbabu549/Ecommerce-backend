@@ -96,6 +96,7 @@ const Categorycontroller = {
         #swagger.parameters['name'] = { in: 'formData', type: 'string', required: false },
         */
     },
+    
     // Change Category status
     async ChangeStatus(req, res) {
         try {
