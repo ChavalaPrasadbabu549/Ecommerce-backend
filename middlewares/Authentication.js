@@ -17,6 +17,7 @@ const Superadmins = async (req, res, next) => {
     }
 };
 
+
 module.exports = Superadmins;
 
 const Vendors = async (req, res, next) => {
