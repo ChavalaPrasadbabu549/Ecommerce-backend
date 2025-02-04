@@ -1,5 +1,7 @@
 const Superadmin = require('../models/Superadmin');
 const Vendor = require('../models/Vendor');
+const User = require('../models/User');
+
 
 const Authentication = async (req, res, next) => {
     try {
@@ -18,7 +20,13 @@ const Authentication = async (req, res, next) => {
             req.user.role = 'Vendor'; // Attach role to req.user for later use
             return next();
         }
-
+        
+        // Check if the user is a user
+        const user = await User.findById(userId);
+        if (user && user.role === 'User') {
+            req.user.role = 'User'; // Attach role to req.user for later use
+            return next();
+        }
         // If the user is neither a Superadmin nor a Vendor, deny access
         res.status(403).json({ message: "Access Denied, Superadmin or Vendor only Access!" });
     } catch (error) {

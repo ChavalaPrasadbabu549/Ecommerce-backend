@@ -4,7 +4,7 @@ const multer = require('multer');
 const jwt = require('jsonwebtoken');
 
 // Environment variables
-const { JWT_SECRET, SALT_ROUNDS } = process.env;
+const { JWT_SECRET } = process.env;
 
 // Configure multer for image uploads
 const storage = multer.diskStorage({
