@@ -30,7 +30,7 @@ const userSchema = mongoose.Schema(
         },
         role: {
             type: String,
-            enum: ['User', 'Admin'], // Restrict roles to 'user' or 'admin'
+            enum: ['User', 'Vendor', 'Superadmin'], // Restrict roles to 'user' or 'admin'
             default: 'User',
         },
         status: {

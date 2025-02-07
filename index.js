@@ -7,7 +7,11 @@ const app = express();
 const PORT = 8900;
 const swaggerUi = require('swagger-ui-express');
 const mongo_url = process.env.MONGO_URL;
+const cors = require("cors");
 
+
+// Apply CORS Middleware
+app.use(cors());
 // Middleware
 app.use(bodyParser.json());
 // Serve Swagger UI
