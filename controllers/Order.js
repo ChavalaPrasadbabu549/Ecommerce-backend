@@ -82,7 +82,6 @@ const OrderController = {
        */
     },
 
-
     async verifyPayment(req, res) {
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
         try {
@@ -126,43 +125,68 @@ const OrderController = {
        */
     },
 
-    // Fetch Orders for a User
+    // Fetch Orders for a User superadmin and vendor
     async getOrders(req, res) {
-        const userId = req.user.id; // Authenticated user ID
-        const userRole = req.user.role; // Role of the authenticated user
-        console.log(userRole)
+        const userId = req.user.id;  // Extract user ID
+        const userRole = req.user.role;  // Extract role
 
         try {
-            // Check if user exists
-            const user = await User.findById(userId);
-            if (!user) {
-                return res.status(404).json({ success: false, message: 'User not found' });
-            }
             let orders = [];
-            if (userRole === "Superadmin") {
-                // Superadmin: Fetch all orders
-                orders = await Order.find()
-                    .populate("user", "name")
-                    .populate("cart.items.product_id")
+
+            if (userRole === 'Superadmin') {
+                orders = await Order.find(); // Superadmin sees all orders
+            } else if (userRole === 'User') {
+                orders = await Order.find({ user: userId }); // User sees their own orders
+            } else if (userRole === "Vendor") {
+                // Vendor: Fetch orders that contain products they own
+                const allOrders = await Order.find();
+
+                //  FIXED: Use the outer `orders` variable instead of redeclaring a new one
+                orders = allOrders.filter(order =>
+                    order.cart?.items?.some(item => item?.product?.vendorId?.toString() === userId)
+                );
+
             } else {
-                // Normal User: Fetch only their own orders
-                orders = await Order.find({ user: userId })
-            }
-            // If no orders found
-            if (orders.length === 0) {
-                return res.status(404).json({ success: false, message: 'No orders found' });
+                return res.status(403).json({ success: false, message: "Unauthorized role" });
             }
 
-            // Return the list of orders
-            return res.status(200).json({ success: true, orders });
+            return res.status(200).json({ success: true, data: orders });
         } catch (error) {
-            console.error('Error fetching orders:', error);
-            return res.status(500).json({ success: false, message: 'Internal server error' });
+            console.error("Error fetching orders:", error);
+            return res.status(500).json({ success: false, message: 'Server error', error: error.message });
         }
+
         /**
         #swagger.tags = ['Order']
         */
     },
+
+    // Get Order by ID
+    async getOrderById(req, res) {
+        const userId = req.user.id; // Get logged-in user ID
+        try {
+            const { order_id } = req.params; // Get order ID from URL params
+
+            // Find order by ID and ensure it belongs to the user
+            const order = await Order.findOne({ _id: order_id, user: userId });
+
+            if (!order) {
+                return res.status(404).json({ success: false, message: "Order not found" });
+            }
+
+            return res.status(200).json({ success: true, message: "Order retrieved successfully", data: order });
+
+        } catch (error) {
+            console.error("Error fetching order:", error);
+            return res.status(500).json({ success: false, message: "Server error", error: error.message });
+        }
+
+        /**
+        #swagger.tags = ['Order']
+        */
+    }
+
+
 };
 
 module.exports = OrderController;

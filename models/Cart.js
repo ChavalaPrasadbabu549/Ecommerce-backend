@@ -9,9 +9,8 @@ const cartSchema = mongoose.Schema({
     },
     items: [
         {
-            product_id: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Product',
+            product: {
+                type: Object,
                 required: true
             },
             quantity: {
@@ -25,7 +24,7 @@ const cartSchema = mongoose.Schema({
             totalPrice: {
                 type: Number,
                 required: false
-            },
+            }
         },
     ],
 });

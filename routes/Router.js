@@ -7,10 +7,12 @@ const vendorRoutes = require('../routes/Vendors'); // Assuming your admin routes
 const categoryRoutes = require('../routes/Category'); // Assuming your admin routes are in categoryRoutes.js
 const subcategoryRoutes = require('../routes/Subcategory'); // Assuming your admin routes are in subcategoryRoutes.js
 const productRoutes = require('../routes/Product'); // Assuming your admin routes are in productRoutes.js
+const reviewRoutes = require('../routes/Review'); // Assuming your admin routes are in reviewRoutes.js
 const cartRoutes = require('../routes/Cart'); // Assuming your admin routes are in cartRoutes.js
 const userRoutes = require('../routes/User'); // Assuming your admin routes are in userRoutes.js
 const addressRoutes = require('../routes/Address'); // Assuming your admin routes are in addressRoutes.js
 const orderRoutes = require('../routes/Order'); // Assuming your admin routes are in addressRoutes.js
+
 
 // SuperAdmin routes
 router.use('/SuperAdmin', superadminRoutes);
@@ -22,6 +24,8 @@ router.use('/Category', categoryRoutes);
 router.use('/SubCategory', subcategoryRoutes);
 //Product  Routes
 router.use('/Product', productRoutes);
+//Review  Routes
+router.use('/Review', reviewRoutes);
 //user  Routes
 router.use('/User', userRoutes);
 //Cart  Routes

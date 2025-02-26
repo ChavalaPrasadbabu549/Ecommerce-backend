@@ -1,12 +1,14 @@
 // CartController.js
 const Cart = require('../models/Cart');
 const Product = require('../models/Product'); // Assuming you have a Product model
+// const Vendor = require('../models/Vendor');
 
 const CartController = {
 
     async addToCart(req, res) {
-        const userId = req.user.id; // Extract authenticated user ID (from token or middleware)
         const { productId, quantity } = req.body;
+        const userId = req.user.id; // Extract authenticated user ID (from token or middleware)
+
         try {
             // Validate input
             if (!productId || !quantity || quantity <= 0) {
@@ -19,10 +21,18 @@ const CartController = {
                 return res.status(404).json({ success: false, message: 'Product not found' });
             }
 
+            // Check if the vendor exists
+            // const vendor = await Vendor.findById(vendorId);
+            // if (!vendor) {
+            //     return res.status(404).json({ success: false, message: 'vendor not found' });
+            // }
+
+            // console.log(product)
+
             // Calculate total price based on quantity
             const itemPrice = Number(product?.price);
             const totalPrice = itemPrice * quantity;
-     
+
             // Find or create a cart for the user
             let cart = await Cart.findOne({ user_id: userId });
             if (!cart) {
@@ -30,7 +40,7 @@ const CartController = {
             }
 
             // Check if the product already exists in the cart
-            const existingItemIndex = cart.items.findIndex(item => item.product_id.toString() === productId);
+            const existingItemIndex = cart.items.findIndex(item => item.product.toString() === productId);
 
             if (existingItemIndex >= 0) {
                 // Update quantity and total price if product already exists in the cart
@@ -38,7 +48,12 @@ const CartController = {
                 cart.items[existingItemIndex].totalPrice += totalPrice;
             } else {
                 // Add new product to the cart
-                cart.items.push({ product_id: productId, quantity, amount: itemPrice, totalPrice });
+                cart.items.push({
+                    product: product,
+                    quantity,
+                    amount: itemPrice,
+                    totalPrice,
+                });
             }
 
             // Save the cart
@@ -157,6 +172,31 @@ const CartController = {
         /**
         #swagger.tags = ['Cart']
         */
+    },
+
+    // Get Cart by ID
+    async getCartById(req, res) {
+        const userId = req.user.id; // Get logged-in user ID
+        try {
+            const { cart_id } = req.params; // Get cart ID from URL params
+
+            // Find Cart by ID and ensure it belongs to the user
+            const cart = await Cart.findOne({ _id: cart_id, user: userId });
+
+            if (!cart) {
+                return res.status(404).json({ success: false, message: "Cart not found" });
+            }
+
+            return res.status(200).json({ success: true, message: "Cart retrieved successfully", data: cart });
+
+        } catch (error) {
+            console.error("Error fetching cart:", error);
+            return res.status(500).json({ success: false, message: "Server error", error: error.message });
+        }
+
+        /**
+        #swagger.tags = ['Cart']
+        */
     }
 
 }
@@ -167,4 +207,5 @@ module.exports = {
     getCartDetails: CartController.getCartDetails,
     updateItemQuantity: CartController.updateItemQuantity,
     removeFromCart: CartController.removeFromCart,
+    getCartById: CartController.getCartById,
 }

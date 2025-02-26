@@ -30,9 +30,13 @@ const UserController = {
                 return res.status(400).json({ success: false, message: 'All fields are required' });
             }
 
-            const existingUser = await User.findOne({ email });
-            if (existingUser) {
-                return res.status(400).json({ success: false, message: 'User already exists' });
+            const existingEmail = await User.findOne({ email });
+            if (existingEmail) {
+                return res.status(400).json({ success: false, message: 'Email already exists' });
+            }
+            const existingMobile = await User.findOne({ mobile });
+            if (existingMobile) {
+                return res.status(400).json({ success: false, message: ' Mobile already exists' });
             }
             // Hash the password
             const hashedPassword = await bcrypt.hash(password, 10);
